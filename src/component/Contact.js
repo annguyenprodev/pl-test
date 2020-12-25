@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button, Modal } from "react-bootstrap";
 import classes from "../style/Modal.module.css";
 const Contact = ({ contact, showContactDetail, onCloseContact }) => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Modal, Spinner, Button, Form } from "react-bootstrap";
 import classes from "../style/Modal.module.css";
 import { Link } from "react-router-dom";
