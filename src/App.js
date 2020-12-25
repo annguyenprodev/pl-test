@@ -1,57 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-
+import React from "react";
+import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
+import { Container, Button } from "react-bootstrap";
+import classes from "./style/Modal.module.css";
+import Contact from "./component/Contact";
+import { useState } from "react";
+import Contacts from "./component/Contacts";
+import { COUNTRY_ALL, COUNTRY_US } from "./store/actions/actionTypes";
 function App() {
+  const [showContacts, setShowContacts] = useState(true);
+  const [showContactDetail, setShowContactDetail] = useState(false);
+  const [activeContact, setActiveContact] = useState(null);
+
+  const onSelectedActiveContact = (contact) => {
+    setShowContacts(false);
+    setActiveContact(contact);
+    setShowContactDetail(true);
+  };
+
+  const onCloseDetail = () => {
+    setShowContactDetail(false);
+    setShowContacts(true);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container className="text-center">
+        <Link to="/all-contacts">
+          <Button className={classes.ButtonA}>
+            All Contacts
+          </Button>
+        </Link>
+        <Link to="/us-contacts">
+          <Button className={classes.ButtonB}>US Contacts</Button>
+        </Link>
+        {activeContact && (
+          <Contact
+            contact={activeContact}
+            showContactDetail={showContactDetail}
+            onCloseContact={onCloseDetail}
+          />
+        )}
+        <Switch>
+          <Route exact path="/all-contacts">
+            <Contacts
+              title="All Contacts"
+              countryId={COUNTRY_ALL}
+              showContacts={showContacts}
+              selectActiveContact={onSelectedActiveContact}
+            />
+          </Route>
+          <Route exact path="/us-contacts">
+            <Contacts
+              title="US Contacts"
+              countryId={COUNTRY_US}
+              showContacts={showContacts}
+              selectActiveContact={onSelectedActiveContact}
+            />
+          </Route>
+        </Switch>
+      </Container>
+    </BrowserRouter>
   );
 }
 
