@@ -5,24 +5,25 @@ import classes from "./style/Modal.module.css";
 import Contact from "./component/Contact";
 import { useState } from "react";
 import Contacts from "./component/Contacts";
-import {COUNTRY_ALL,COUNTRY_US} from "./store/actions/actionTypes"
+import { COUNTRY_ALL, COUNTRY_US } from "./store/actions/actionTypes";
 function App() {
-  const [showContacts, setShowContacts] = useState(true)
-  const [showContactDetail, setShowContactDetail] = useState(false)
-  
-  const onSelectedActiveContact = () => {
-    console.log("onSelectedActiveContact");
-    setShowContacts(false)
-    setShowContactDetail(true)
-  }
+  const [showContacts, setShowContacts] = useState(true);
+  const [showContactDetail, setShowContactDetail] = useState(false);
+  const [activeContact, setActiveContact] = useState(null);
+
+  const onSelectedActiveContact = (contact) => {
+    setShowContacts(false);
+    setActiveContact(contact);
+    setShowContactDetail(true);
+  };
 
   const onCloseDetail = () => {
-    console.log("onCloseDetail");
-    setShowContactDetail(false)
-    setShowContacts(true)
-  }
+    setShowContactDetail(false);
+    setShowContacts(true);
+  };
   return (
     <BrowserRouter>
+      {console.log("activeContact", activeContact)}
       <Container className="text-center">
         <Link to="/all-contacts">
           <Button variant="primary" className={classes.ButtonA}>
@@ -32,21 +33,29 @@ function App() {
         <Link to="/us-contacts">
           <Button className={classes.ButtonB}>US Contacts</Button>
         </Link>
-        <Contact showContactDetail={showContactDetail} onCloseContact={onCloseDetail} /> 
+        {activeContact && (
+          <Contact
+            contact={activeContact}
+            showContactDetail={showContactDetail}
+            onCloseContact={onCloseDetail}
+          />
+        )}
         <Switch>
-          <Route
-            exact
-            path="/all-contacts"
-            
-          >
-            <Contacts title="All Contacts" countryId={COUNTRY_ALL} showContacts={showContacts} selectActiveContact={onSelectedActiveContact} />
+          <Route exact path="/all-contacts">
+            <Contacts
+              title="All Contacts"
+              countryId={COUNTRY_ALL}
+              showContacts={showContacts}
+              selectActiveContact={onSelectedActiveContact}
+            />
           </Route>
-          <Route
-            exact
-            path="/us-contacts"
-            
-          >
-            <Contacts title="US Contacts" countryId={COUNTRY_US} showContacts={showContacts} selectActiveContact={onSelectedActiveContact} />
+          <Route exact path="/us-contacts">
+            <Contacts
+              title="US Contacts"
+              countryId={COUNTRY_US}
+              showContacts={showContacts}
+              selectActiveContact={onSelectedActiveContact}
+            />
           </Route>
         </Switch>
       </Container>
