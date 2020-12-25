@@ -41,12 +41,10 @@ export function fetchContactData(countryId, queryStr, page) {
     };
 
     try {
-      console.log("getting :", JSON.stringify(params));
       const response = await Axios.get(
         "https://api.dev.pastorsline.com/api/contacts.json",
         config
       );
-      console.log(response.data.contacts_ids.join(" "));
       const contacts = [];
       for (let id in response.data.contacts) {
         contacts.push(response.data.contacts[id]);

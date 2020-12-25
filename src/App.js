@@ -23,10 +23,9 @@ function App() {
   };
   return (
     <BrowserRouter>
-      {console.log("activeContact", activeContact)}
       <Container className="text-center">
         <Link to="/all-contacts">
-          <Button variant="primary" className={classes.ButtonA}>
+          <Button className={classes.ButtonA}>
             All Contacts
           </Button>
         </Link>
